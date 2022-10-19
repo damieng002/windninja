@@ -163,6 +163,12 @@ public:
     coverUnits::eCoverUnits cloudCoverUnits;		//units of cloud cover (0=>fraction, 1=>percent) ALWAYS STORED AS FRACTION!
     double cloudCover;			//fraction of cloud cover (range is 0-1, NOT PERCENT!)
 
+    bool upperWindUse;
+    double upperWindLimit;
+    double upperWindHeight;
+    double upperWindDirection;
+    double upperWindSpeed;
+
     double latitude;			//approximate latitude of modeling area (used in diurnal calcs for solar angle) ALWAYS STORED AS DECIMAL DEGREES!
     double longitude;			//approximate longitude of modeling area (used in diurnal calcs for solar angle) ALWAYS STORED AS DECIMAL DEGREES!
 

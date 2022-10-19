@@ -82,6 +82,13 @@ void initialize::initializeWindFromProfile(WindNinjaInputs &input,
 {
     int i, j, k;
 //#pragma omp parallel for default(shared) firstprivate(profile) private(i,j,k)
+    double uUpper, vUpper;
+    if(input.upperWindUse){
+        profile.useUpper = input.upperWindUse;
+        profile.inputWindUpperLimit = input.upperWindLimit;
+        profile.inputWindUpperHeight = input.upperWindHeight;
+        wind_sd_to_uv(input.upperWindSpeed, input.upperWindDirection, &uUpper, &vUpper);
+    }
     for(i=0;i<input.dem.get_nRows();i++)
     {
         for(j=0;j<input.dem.get_nCols();j++)
@@ -92,16 +99,17 @@ void initialize::initializeWindFromProfile(WindNinjaInputs &input,
             profile.Rough_h = input.surface.Rough_h(i,j);
             profile.Rough_d = input.surface.Rough_d(i,j);
             profile.inputWindHeight = input.inputWindHeight;
-
             for(k=0;k<mesh.nlayers;k++)
             {
                 //this is height above THE GROUND!! (not "z=0" for the log profile)
                 profile.AGL=mesh.ZORD(i, j, k)-input.dem(i,j);
 
                 profile.inputWindSpeed = uInitializationGrid(i,j);
+                profile.inputWindUpperSpeed = uUpper;
                 u0(i, j, k) += profile.getWindSpeed();
 
                 profile.inputWindSpeed = vInitializationGrid(i,j);
+                profile.inputWindUpperSpeed = vUpper;
                 v0(i, j, k) += profile.getWindSpeed();
 
                 profile.inputWindSpeed = 0.0;

@@ -60,6 +60,11 @@ class windProfile
 		double ABL_height;
 		double powerLawPower;			//used in power_law_askervein
 
+		bool useUpper;
+		double inputWindUpperSpeed;
+		double inputWindUpperLimit;
+		double inputWindUpperHeight;
+
 		double getWindSpeed();		//function returns wind velocity given the inputs (profile_switch, AGL, etc...)
         double monin_obukov(double z, double const& U1, double const& z1, double const& z0, double const& L);
 		double stability_function(double const& z_over_L, double const& L_switch);

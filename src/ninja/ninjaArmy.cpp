@@ -1519,6 +1519,7 @@ int ninjaArmy::setUniCloudCover( const int nIndex, const double cloud_cover,
             ninjas[ nIndex ]->set_uniCloudCover( cloud_cover, units ) );
 }
 
+
 int ninjaArmy::setUniCloudCover( const int nIndex, const double cloud_cover,
                                  std::string units, char ** papszOptions )
 {
@@ -1541,6 +1542,12 @@ int ninjaArmy::setUniCloudCover( const int nIndex, const double cloud_cover,
        }
    }
    return retval;
+}
+
+int ninjaArmy::setUpperWind(const int nIndex, const double upper_wind_limit, const double upper_wind_height,
+                    const double upper_wind_speed, const double upper_wind_direction)
+{
+    IF_VALID_INDEX_TRY( nIndex, ninjas, ninjas[ nIndex ]->set_upperWind( upper_wind_limit, upper_wind_height, upper_wind_speed, upper_wind_direction));
 }
 
 int ninjaArmy::setDateTime( const int nIndex, int const &yr, int const &mo, int const &day,

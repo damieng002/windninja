@@ -706,6 +706,10 @@ public:
     */
     int setUniCloudCover( const int nIndex, const double cloud_cover,
                           std::string units, char ** papszOptions=NULL );
+
+
+    int setUpperWind(const int nIndex, const double upper_wind_limit, const double upper_wind_height,
+                    const double upper_wind_speed, const double upper_wind_direction);
     /**
     * \brief Set the simulation date and time for a ninja
     *

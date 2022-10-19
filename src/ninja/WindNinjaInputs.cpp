@@ -57,6 +57,11 @@ WindNinjaInputs::WindNinjaInputs()
     airTemp = -10000;
     cloudCoverUnits = coverUnits::percent;
     cloudCover = -1.0;
+    upperWindUse = false;
+    upperWindLimit = 1000;
+    upperWindHeight = 1000;
+    upperWindDirection = 0;
+    upperWindSpeed = 0;
     latitude = -10000.0;
     longitude = -10000.0;
     numberCPUs = 1;

@@ -33,7 +33,13 @@ windProfile::windProfile()
 {
 	profile_switch = uniform;
 	inputWindSpeed = 0.0;
-	inputWindHeight = 0.0;			//AGL!		
+	inputWindHeight = 0.0;			//AGL!	
+
+	useUpper = false;
+	inputWindUpperSpeed = 0.0;
+	inputWindUpperLimit = 0.0;
+	inputWindUpperHeight = 0.0;
+
 	Roughness = 0.0;
 	Rough_h = 0.0;
 	Rough_d = 0.0;
@@ -57,6 +63,10 @@ double windProfile::getWindSpeed()
 		{
 			velocity = 0.0;
 			return velocity;
+		}else if(useUpper && AGL>=inputWindUpperLimit)
+		{
+			velocity = inputWindUpperSpeed;
+			return velocity;
 		}else{
 			velocity = inputWindSpeed;
 			return velocity;
@@ -67,6 +77,17 @@ double windProfile::getWindSpeed()
 		{
 			velocity = 0.0;
 			return velocity;
+		}else if(useUpper && AGL>=inputWindUpperLimit)
+		{
+			inwindheight = (inputWindUpperHeight + Rough_h) - (Rough_d);	//height of input wind (from z=0 of log profile)
+            if(AGL < (Rough_d + Roughness))	//if we're below the log profile, return velocity of zero
+			{
+				velocity = 0.0;
+				return velocity;
+			}else{
+				velocity = inputWindUpperSpeed*((log((AGL-Rough_d)/Roughness))/(log((inwindheight)/Roughness)));
+				return velocity;
+			}
 		}else
 		{
 			inwindheight = (inputWindHeight + Rough_h) - (Rough_d);	//height of input wind (from z=0 of log profile)
@@ -85,7 +106,11 @@ double windProfile::getWindSpeed()
 		 {
 			velocity = 0.0;
 			return velocity;
-		 }else
+		 }else if (useUpper && AGL>=inputWindUpperLimit)
+         {
+              velocity = inputWindUpperSpeed*std::pow((AGL/inputWindUpperHeight),powerLawPower);
+			  return velocity;
+         }else
          {
               velocity = inputWindSpeed*std::pow((AGL/inputWindHeight),powerLawPower);
 			  return velocity;
@@ -96,7 +121,35 @@ double windProfile::getWindSpeed()
 		{
                     velocity = 0.0;
                     return velocity;
-		}else
+		}else if (useUpper && AGL>=inputWindUpperLimit)
+                {		
+		    inwindheight = (inputWindUpperHeight + Rough_h) - (Rough_d); //height of input wind (from z=0 of log profile)
+
+                    //If the input wind is at a height where the log profile isn't defined (can happen on output interpolation),
+                    //just linearly interpolate. Use three times the roughness height to avoid issues that can arise sampling
+                    //too close to where the log profile goes to 0.
+                    if(inwindheight < 3.0*Roughness){
+                        velocity = inputWindUpperSpeed * (AGL/(inwindheight + Rough_d));
+                        return velocity;
+                    }else{ //else, just do standard profile stuff
+                        if(AGL < (Rough_d + 7.0*Roughness))	//linearly interpolate, as in AERMOD, if below 7*z0
+                        {
+                            vel7z0 = monin_obukov(7.0*Roughness, inputWindUpperSpeed, inwindheight, Roughness, ObukovLength);	//compute windspeeds at 7*z0 height
+                            velocity = vel7z0 * (AGL/(7.0*Roughness + Rough_d));
+                            return velocity;
+                        }else if(AGL < (Rough_d + ABL_height))	//if below ABL top, monin-obukov similarity (log profile)
+                        {
+                            velocity = monin_obukov((AGL - Rough_d), inputWindUpperSpeed, inwindheight, Roughness, ObukovLength);
+                            return velocity;
+                        }else{	//else we're above the ABL...
+                            if(ABL_height<=0.0) //This can happen if input velocity is 0 which gives u_star=0 (typically if diurnal is off)
+                                velocity = 0.0;
+                            else
+                                velocity = monin_obukov(ABL_height, inputWindUpperSpeed, inwindheight, Roughness, ObukovLength);
+                        return velocity;
+                        }
+                    }
+                }else
                 {		
 		    inwindheight = (inputWindHeight + Rough_h) - (Rough_d); //height of input wind (from z=0 of log profile)
 

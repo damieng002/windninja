@@ -4060,6 +4060,14 @@ void ninja::set_uniCloudCover(double cloud_cover, coverUnits::eCoverUnits units)
     input.cloudCover = cloud_cover;
 }
 
+void ninja::set_upperWind(double upper_wind_limit,  double upper_wind_height, double upper_wind_speed, double upper_wind_direction){
+    input.upperWindUse = true;
+    input.upperWindLimit = upper_wind_limit;
+    input.upperWindSpeed = upper_wind_speed;
+    input.upperWindDirection = upper_wind_direction;
+    input.upperWindHeight = upper_wind_height;
+}
+
 /**
  * Sets the in-memory datasets for GTiff output writer.
  * @param hSpdMemDS Name of the in-memory speed dataset.

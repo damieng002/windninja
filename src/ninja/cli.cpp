@@ -265,6 +265,11 @@ int windNinjaCLI(int argc, char* argv[])
                 ("output_path", po::value<std::string>(), "path to where output files will be written")
                 ("non_neutral_stability", po::value<bool>()->default_value(false), "use non-neutral stability (true, false)")
                 ("alpha_stability", po::value<double>(), "alpha value for atmospheric stability")
+                ("use_upper_wind", po::value<bool>()->default_value(false), "initialize the upper level winds with other values than the lower level winds (true, false)")
+                ("upper_wind_limit",po::value<double>(), "limit above which upper level winds are used (AGL")
+                ("upper_wind_height",po::value<double>(), "height at which upper winds are given (AGL)")
+                ("upper_wind_speed",po::value<double>(), "speed of upper wind km/h")
+                ("upper_wind_direction",po::value<double>(), "direction of upper wind")
                 #ifdef FRICTION_VELOCITY
                 ("compute_friction_velocity",po::value<bool>()->default_value(false), "compute friction velocity (true, false)")
                 ("friction_velocity_calculation_method", po::value<std::string>()->default_value("logProfile"), "friction velocity calculation method (logProfile, shearStress)")
@@ -652,7 +657,7 @@ int windNinjaCLI(int argc, char* argv[])
             vm.insert(std::make_pair("elevation_file", po::variable_value(new_elev, false)));
             po::notify(vm);
         }
-        #endif //EMISSIONS
+        #endif //
 
         if(vm.count("north") || vm.count("south") ||
                vm.count("east") || vm.count("west"))
@@ -1467,7 +1472,16 @@ int windNinjaCLI(int argc, char* argv[])
             {
 //STATION_FETCH
                 option_dependency(vm, "output_wind_height", "units_output_wind_height");
-
+                if(vm["use_upper_wind"].as<bool>()){
+                    option_dependency(vm, "use_upper_wind", "upper_wind_limit");
+                    option_dependency(vm, "use_upper_wind", "upper_wind_height");
+                    option_dependency(vm, "use_upper_wind", "upper_wind_speed");
+                    option_dependency(vm, "use_upper_wind", "upper_wind_direction");
+                    windsim.setUpperWind(i_, vm["upper_wind_limit"].as<double>(),
+                                        vm["upper_wind_height"].as<double>(),
+                                        vm["upper_wind_speed"].as<double>(),
+                                        vm["upper_wind_direction"].as<double>());
+                }
                 if(vm["write_wx_station_csv"].as<bool>()==true) //If the user wants an interpolated CSV
                 {
                     CPLDebug("STATION_FETCH", "Writing wxStation csv for step #%d", i_);
@@ -1742,7 +1756,7 @@ int windNinjaCLI(int argc, char* argv[])
             if(vm.count("output_path")){
                 windsim.setOutputPath( i_, vm["output_path"].as<std::string>());
             }
-            
+
             windsim.setOutputBufferClipping( i_, vm["output_buffer_clipping"].as<double>());
 
             if(!vm.count("write_wx_model_goog_output") &&
