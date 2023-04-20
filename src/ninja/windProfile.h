@@ -56,6 +56,7 @@ class windProfile
 		double Rough_h;
 		double Rough_d;
 		double AGL;						//desired wind height "above ground level" (AGL)!
+		double GroundASL;
 		double ObukovLength;
 		double ABL_height;
 		double powerLawPower;			//used in power_law_askervein

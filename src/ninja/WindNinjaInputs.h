@@ -168,6 +168,7 @@ public:
     double upperWindHeight;
     double upperWindDirection;
     double upperWindSpeed;
+    bool upperWindZeroMiddleLayer;
 
     double latitude;			//approximate latitude of modeling area (used in diurnal calcs for solar angle) ALWAYS STORED AS DECIMAL DEGREES!
     double longitude;			//approximate longitude of modeling area (used in diurnal calcs for solar angle) ALWAYS STORED AS DECIMAL DEGREES!

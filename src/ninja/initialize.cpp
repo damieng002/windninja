@@ -103,13 +103,24 @@ void initialize::initializeWindFromProfile(WindNinjaInputs &input,
             {
                 //this is height above THE GROUND!! (not "z=0" for the log profile)
                 profile.AGL=mesh.ZORD(i, j, k)-input.dem(i,j);
+                profile.GroundASL=input.dem(i,j);
 
-                profile.inputWindSpeed = uInitializationGrid(i,j);
-                profile.inputWindUpperSpeed = uUpper;
+                if(input.upperWindZeroMiddleLayer && mesh.ZORD(i, j, k)<input.upperWindLimit && mesh.ZORD(i, j, k+1)>=input.upperWindLimit){
+                    profile.inputWindSpeed = 0;
+                    profile.inputWindUpperSpeed = 0;
+                }else{
+                    profile.inputWindSpeed = uInitializationGrid(i,j);    
+                    profile.inputWindUpperSpeed = uUpper;
+                }
                 u0(i, j, k) += profile.getWindSpeed();
-
-                profile.inputWindSpeed = vInitializationGrid(i,j);
-                profile.inputWindUpperSpeed = vUpper;
+                
+                if(input.upperWindZeroMiddleLayer && mesh.ZORD(i, j, k)<input.upperWindLimit && mesh.ZORD(i, j, k+1)>=input.upperWindLimit){
+                    profile.inputWindSpeed = 0;
+                    profile.inputWindUpperSpeed = 0;
+                }else{
+                    profile.inputWindSpeed = vInitializationGrid(i,j);
+                    profile.inputWindUpperSpeed = vUpper;
+                }
                 v0(i, j, k) += profile.getWindSpeed();
 
                 profile.inputWindSpeed = 0.0;

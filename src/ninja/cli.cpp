@@ -266,10 +266,11 @@ int windNinjaCLI(int argc, char* argv[])
                 ("non_neutral_stability", po::value<bool>()->default_value(false), "use non-neutral stability (true, false)")
                 ("alpha_stability", po::value<double>(), "alpha value for atmospheric stability")
                 ("use_upper_wind", po::value<bool>()->default_value(false), "initialize the upper level winds with other values than the lower level winds (true, false)")
-                ("upper_wind_limit",po::value<double>(), "limit above which upper level winds are used (AGL")
-                ("upper_wind_height",po::value<double>(), "height at which upper winds are given (AGL)")
+                ("upper_wind_limit",po::value<double>(), "limit above which upper level winds are used (ASL)")
+                ("upper_wind_height",po::value<double>(), "height at which upper winds are given (ASL)")
                 ("upper_wind_speed",po::value<double>(), "speed of upper wind km/h")
                 ("upper_wind_direction",po::value<double>(), "direction of upper wind")
+                ("upper_wind_zero_middle_layer",po::value<bool>(), "add a layer with zero wind between low and high altitude winds")
                 #ifdef FRICTION_VELOCITY
                 ("compute_friction_velocity",po::value<bool>()->default_value(false), "compute friction velocity (true, false)")
                 ("friction_velocity_calculation_method", po::value<std::string>()->default_value("logProfile"), "friction velocity calculation method (logProfile, shearStress)")
@@ -1480,7 +1481,8 @@ int windNinjaCLI(int argc, char* argv[])
                     windsim.setUpperWind(i_, vm["upper_wind_limit"].as<double>(),
                                         vm["upper_wind_height"].as<double>(),
                                         vm["upper_wind_speed"].as<double>(),
-                                        vm["upper_wind_direction"].as<double>());
+                                        vm["upper_wind_direction"].as<double>(),
+                                        vm["upper_wind_zero_middle_layer"].as<bool>());
                 }
                 if(vm["write_wx_station_csv"].as<bool>()==true) //If the user wants an interpolated CSV
                 {

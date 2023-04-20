@@ -1545,9 +1545,9 @@ int ninjaArmy::setUniCloudCover( const int nIndex, const double cloud_cover,
 }
 
 int ninjaArmy::setUpperWind(const int nIndex, const double upper_wind_limit, const double upper_wind_height,
-                    const double upper_wind_speed, const double upper_wind_direction)
+                    const double upper_wind_speed, const double upper_wind_direction, const bool upper_wind_zero_middle_layer)
 {
-    IF_VALID_INDEX_TRY( nIndex, ninjas, ninjas[ nIndex ]->set_upperWind( upper_wind_limit, upper_wind_height, upper_wind_speed, upper_wind_direction));
+    IF_VALID_INDEX_TRY( nIndex, ninjas, ninjas[ nIndex ]->set_upperWind( upper_wind_limit, upper_wind_height, upper_wind_speed, upper_wind_direction, upper_wind_zero_middle_layer));
 }
 
 int ninjaArmy::setDateTime( const int nIndex, int const &yr, int const &mo, int const &day,

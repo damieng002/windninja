@@ -62,6 +62,7 @@ WindNinjaInputs::WindNinjaInputs()
     upperWindHeight = 1000;
     upperWindDirection = 0;
     upperWindSpeed = 0;
+    upperWindZeroMiddleLayer = false;
     latitude = -10000.0;
     longitude = -10000.0;
     numberCPUs = 1;

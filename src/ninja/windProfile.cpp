@@ -44,6 +44,7 @@ windProfile::windProfile()
 	Rough_h = 0.0;
 	Rough_d = 0.0;
 	AGL = 0.0;						//desired wind height AGL!
+	GroundASL = 0.0;
 	ObukovLength = 0.0;
 	ABL_height = 0.0; 
 	powerLawPower = 0.143;			//for Askervein study...?
@@ -63,7 +64,7 @@ double windProfile::getWindSpeed()
 		{
 			velocity = 0.0;
 			return velocity;
-		}else if(useUpper && AGL>=inputWindUpperLimit)
+		}else if(useUpper && AGL+GroundASL>=inputWindUpperLimit)
 		{
 			velocity = inputWindUpperSpeed;
 			return velocity;
@@ -77,7 +78,7 @@ double windProfile::getWindSpeed()
 		{
 			velocity = 0.0;
 			return velocity;
-		}else if(useUpper && AGL>=inputWindUpperLimit)
+		}else if(useUpper && AGL+GroundASL>=inputWindUpperLimit)
 		{
 			inwindheight = (inputWindUpperHeight + Rough_h) - (Rough_d);	//height of input wind (from z=0 of log profile)
             if(AGL < (Rough_d + Roughness))	//if we're below the log profile, return velocity of zero
@@ -106,7 +107,7 @@ double windProfile::getWindSpeed()
 		 {
 			velocity = 0.0;
 			return velocity;
-		 }else if (useUpper && AGL>=inputWindUpperLimit)
+		 }else if (useUpper && AGL+GroundASL>=inputWindUpperLimit)
          {
               velocity = inputWindUpperSpeed*std::pow((AGL/inputWindUpperHeight),powerLawPower);
 			  return velocity;
@@ -121,7 +122,7 @@ double windProfile::getWindSpeed()
 		{
                     velocity = 0.0;
                     return velocity;
-		}else if (useUpper && AGL>=inputWindUpperLimit)
+		}else if (useUpper && AGL+GroundASL>=inputWindUpperLimit)
                 {		
 		    inwindheight = (inputWindUpperHeight + Rough_h) - (Rough_d); //height of input wind (from z=0 of log profile)
 
