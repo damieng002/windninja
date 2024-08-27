@@ -1,7 +1,7 @@
 WindNinja
 =========
 
-## Update from original repo
+## Changes compared to original repo
 - Variables added in cmd args to be able to use a altitude
 ``` plaintext
   --use_upper_wind arg (=0)             initialize the upper level winds with
