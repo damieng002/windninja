@@ -18,36 +18,24 @@
 #                --security-opt label=type:container_runtime_t \
 #                windninja:3.7.5 
 #
-FROM ubuntu:20.04
-
-MAINTAINER Kyle Shannon <kyle@pobox.com>
+FROM windninja_prerequisites:latest
 
 USER root
 ADD . /opt/src/windninja/
 SHELL [ "/usr/bin/bash", "-c" ]
 ENV DEBIAN_FRONTEND noninteractive
 ENV WM_PROJECT_INST_DIR /opt
-RUN dpkg-reconfigure debconf --frontend=noninteractive && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y wget gnupg2 cmake git apt-transport-https ca-certificates \
-                       software-properties-common sudo build-essential \
-                       pkg-config g++ libboost-program-options-dev \
-                       libboost-date-time-dev libboost-test-dev  && \
-    cd /opt/src && \
-    DEBIAN_FRONTEND=noninteractive ./windninja/scripts/build_deps_ubuntu_2004.sh && \
-    rm -rf /var/lib/apt/lists
 
 RUN cd  /opt/src/windninja && \
     mkdir build && \
     cd  /opt/src/windninja/build && \
-    cmake -D SUPRESS_WARNINGS=ON -DNINJAFOAM=ON .. && \
+    cmake -D SUPRESS_WARNINGS=ON -D NINJAFOAM=ON -D NINJA_QTGUI=OFF -D NINJA_QT5GUI=OFF .. && \
     make -j4 && \
     make install && \
     ldconfig && \
     cd /opt/src/windninja && \
     /usr/bin/bash -c scripts/build_libs.sh
 
-CMD /usr/bin/bash -c /usr/local/bin/WindNinja
+CMD /usr/bin/bash -c /usr/local/bin/WindNinja_cli
 VOLUME /data
 WORKDIR /data

@@ -235,6 +235,7 @@ public:
     std::string wxModelLegFile;
     std::string dateTimewxModelLegFile;
     std::string volVTKFile;
+    std::string volVTKFileInitial;
     bool        pdfOutFlag;
     std::string pdfDEMFileName;
     std::string pdfFile;

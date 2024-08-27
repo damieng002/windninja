@@ -86,7 +86,7 @@ double windProfile::getWindSpeed()
 				velocity = 0.0;
 				return velocity;
 			}else{
-				velocity = inputWindUpperSpeed*((log((AGL-Rough_d)/Roughness))/(log((inwindheight)/Roughness)));
+				velocity = inputWindUpperSpeed;//*((log((AGL-Rough_d)/Roughness))/(log((inwindheight)/Roughness)));
 				return velocity;
 			}
 		}else
@@ -97,7 +97,7 @@ double windProfile::getWindSpeed()
 				velocity = 0.0;
 				return velocity;
 			}else{
-				velocity = inputWindSpeed*((log((AGL-Rough_d)/Roughness))/(log((inwindheight)/Roughness)));
+				velocity = inputWindSpeed;//*((log((AGL-Rough_d)/Roughness))/(log((inwindheight)/Roughness)));
 				return velocity;
 			}
 		}

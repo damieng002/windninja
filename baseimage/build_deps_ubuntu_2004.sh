@@ -10,6 +10,7 @@ sudo -E apt-get install -y pkg-config libfontconfig1-dev libcurl4-gnutls-dev lib
                            libboost-program-options-dev libboost-date-time-dev libgeos-dev \
                            libboost-test-dev libsqlite3-dev sqlite3
 
+
 #Get and build poppler for PDF support in GDAL
 wget https://poppler.freedesktop.org/$POPPLER.tar.xz
 tar -xvf $POPPLER.tar.xz 
@@ -44,5 +45,7 @@ sudo sh -c "wget -O - https://dl.openfoam.org/gpg.key | apt-key add -"
 sudo add-apt-repository http://dl.openfoam.org/ubuntu
 sudo apt-get update
 sudo -E apt-get install -y openfoam8
+sudo -E apt-get clean
+sudo -E apt-get autoremove
 echo "source /opt/openfoam8/etc/bashrc" >> ~/.bashrc
 

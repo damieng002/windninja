@@ -722,7 +722,7 @@ public:
 
 
     int setUpperWind(const int nIndex, const double upper_wind_limit, const double upper_wind_height,
-                    const double upper_wind_speed, const double upper_wind_direction, const bool upper_wind_zero_middle_layer);
+                    const double upper_wind_speed, const double upper_wind_direction, std::string upper_wind_units, const bool upper_wind_zero_middle_layer);
     /**
     * \brief Set the simulation date and time for a ninja
     *

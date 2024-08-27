@@ -275,7 +275,7 @@ bool volVTK::writeVolVTK_binary(wn_3dScalarField const& u, wn_3dScalarField cons
             double x_tmp = x(1*i*j + ii*j + jj);
             double y_tmp = y(1*i*j + ii*j + jj);
             double z_tmp = z(1*i*j + ii*j + jj);
-            if( isBigEndian == false )
+            if( isBigEndian == true )
             {
                 swapEnd(x_tmp);
                 swapEnd(y_tmp);
@@ -313,7 +313,7 @@ bool volVTK::writeVolVTK_binary(wn_3dScalarField const& u, wn_3dScalarField cons
                 double x_tmp = x(kk*i*j + ii*j + jj);
                 double y_tmp = y(kk*i*j + ii*j + jj);
                 double z_tmp = z(kk*i*j + ii*j + jj);
-                if( isBigEndian == false )
+                if( isBigEndian == true )
                 {
                     swapEnd(x_tmp);
                     swapEnd(y_tmp);
@@ -339,7 +339,7 @@ bool volVTK::writeVolVTK_binary(wn_3dScalarField const& u, wn_3dScalarField cons
                 double u_tmp = u(kk*i*j + ii*j + jj);
                 double v_tmp = v(kk*i*j + ii*j + jj);
                 double w_tmp = w(kk*i*j + ii*j + jj);
-                if( isBigEndian == false )
+                if( isBigEndian == true )
                 {
                     swapEnd(u_tmp);
                     swapEnd(v_tmp);
@@ -390,7 +390,7 @@ bool volVTK::writeMeshVolVTK_binary(wn_3dArray& x, wn_3dArray& y, wn_3dArray& z,
             double x_tmp = x(1*i*j + ii*j + jj);
             double y_tmp = y(1*i*j + ii*j + jj);
             double z_tmp = z(1*i*j + ii*j + jj);
-            if( isBigEndian == false )
+            if( isBigEndian == true )
             {
                 swapEnd(x_tmp);
                 swapEnd(y_tmp);
@@ -428,7 +428,7 @@ bool volVTK::writeMeshVolVTK_binary(wn_3dArray& x, wn_3dArray& y, wn_3dArray& z,
                 double x_tmp = x(kk*i*j + ii*j + jj);
                 double y_tmp = y(kk*i*j + ii*j + jj);
                 double z_tmp = z(kk*i*j + ii*j + jj);
-                if( isBigEndian == false )
+                if( isBigEndian == true )
                 {
                     swapEnd(x_tmp);
                     swapEnd(y_tmp);

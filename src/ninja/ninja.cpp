@@ -104,7 +104,9 @@ ninja::ninja(const ninja &rhs)
 : AngleGrid(rhs.AngleGrid)
 , VelocityGrid(rhs.VelocityGrid)
 , CloudGrid(rhs.CloudGrid)
+#ifdef NINJAFOAM  
 , TurbulenceGrid(rhs.TurbulenceGrid)
+#endif
 , outputSpeedArray(rhs.outputSpeedArray)
 , outputDirectionArray(rhs.outputDirectionArray)
 #ifdef EMISSIONS
@@ -183,7 +185,9 @@ ninja &ninja::operator=(const ninja &rhs)
         AngleGrid = rhs.AngleGrid;
         VelocityGrid = rhs.VelocityGrid;
         CloudGrid = rhs.CloudGrid;
+        #ifdef NINJAFOAM  
         TurbulenceGrid = rhs.TurbulenceGrid;
+        #endif
         outputSpeedArray=rhs.outputSpeedArray;
         outputDirectionArray = rhs.outputDirectionArray;
         #ifdef EMISSIONS
@@ -2799,8 +2803,10 @@ void ninja::writeOutputFiles()
 	{
 		try{
             // can pick between "ascii" and "binary" format for the vtk write format
-            std::string vtkWriteFormat = "binary";//"binary";//"ascii";
-			volVTK VTK(u, v, w, mesh.XORD, mesh.YORD, mesh.ZORD, input.dem.get_nCols(), input.dem.get_nRows(), mesh.nlayers, input.volVTKFile, vtkWriteFormat);
+            std::string vtkWriteFormat = "ascii";//"binary";//"ascii";
+            volVTK VTK(u0, v0, w0, mesh.XORD, mesh.YORD, mesh.ZORD, input.dem.get_nCols(), input.dem.get_nRows(), mesh.nlayers, input.volVTKFileInitial, vtkWriteFormat);
+			volVTK VTK2(u, v, w, mesh.XORD, mesh.YORD, mesh.ZORD, input.dem.get_nCols(), input.dem.get_nRows(), mesh.nlayers, input.volVTKFile, vtkWriteFormat);
+            
 		}catch (exception& e)
 		{
 			input.Com->ninjaCom(ninjaComClass::ninjaWarning, "Exception caught during volume VTK file writing: %s", e.what());
@@ -3077,11 +3083,13 @@ void ninja::writeOutputFiles()
 				delete velTempGrid;
 				velTempGrid=NULL;
 			}
+#ifdef NINJAFOAM            
 			if(turbTempGrid)
 			{
 				delete turbTempGrid;
 				turbTempGrid=NULL;
 			}
+#endif
 		}
 	}catch (exception& e)
 	{
@@ -4203,9 +4211,10 @@ void ninja::set_uniCloudCover(double cloud_cover, coverUnits::eCoverUnits units)
     input.cloudCover = cloud_cover;
 }
 
-void ninja::set_upperWind(double upper_wind_limit,  double upper_wind_height, double upper_wind_speed, double upper_wind_direction, bool upper_wind_zero_middle_layer){
+void ninja::set_upperWind(double upper_wind_limit,  double upper_wind_height, double upper_wind_speed, double upper_wind_direction, velocityUnits::eVelocityUnits upper_wind_units, bool upper_wind_zero_middle_layer){
     input.upperWindUse = true;
     input.upperWindLimit = upper_wind_limit;
+    velocityUnits::toBaseUnits(upper_wind_speed, upper_wind_units);
     input.upperWindSpeed = upper_wind_speed;
     input.upperWindDirection = upper_wind_direction;
     input.upperWindHeight = upper_wind_height;
@@ -4990,6 +4999,7 @@ void ninja::set_outputFilenames(double& meshResolution,
     //wxModelAngFile = "wxModel" + wxModelTimeAppend + "_ang.asc";
 
     input.volVTKFile = rootFile + fileAppend + ".vtk";
+    input.volVTKFileInitial = rootFile + fileAppend + "_initial.vtk";
 
     input.legFile = rootFile + kmz_fileAppend + ".bmp";
     if( input.ninjaTime.is_not_a_date_time() )	//date and time not set?

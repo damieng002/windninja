@@ -1,9 +1,31 @@
 WindNinja
 =========
-[![example workflow](https://github.com/firelab/windninja/actions/workflows/testing.yml/badge.svg)](https://github.com/firelab/windninja/actions)
-[![builds.sr.ht status](https://builds.sr.ht/~ksshannon/windninja.svg)](https://builds.sr.ht/~ksshannon/windninja?)
-[![DOI](https://zenodo.org/badge/21244/firelab/windninja.svg)](https://zenodo.org/badge/latestdoi/21244/firelab/windninja)
 
+## Update from original repo
+- Variables added in cmd args to be able to use a altitude
+``` plaintext
+  --use_upper_wind arg (=0)             initialize the upper level winds with
+                                        other values than the lower level winds
+                                        (true, false)
+  --upper_wind_limit arg                limit above which upper level winds are
+                                        used (ASL)
+  --upper_wind_height arg               height at which upper winds are given
+                                        (ASL)
+  --upper_wind_speed arg                speed of upper wind km/h
+  --upper_wind_direction arg            direction of upper wind
+  --upper_wind_units arg                units of input upper wind speed (mps,
+                                        mph, kph, kts)
+  --upper_wind_zero_middle_layer arg    add a layer with zero wind between low
+                                        and high altitude winds
+```
+- Save to disk a VTK with initilized winds
+- Docker build is split in two images see [Docker](Docker.md)
+- Add md file with key points to add new variables see [Add_variables](Add_variables.md)
+- Add md file with information on wind initilization see [WN_initiliaze](WN_initiliaze.md)
+
+
+Original Readme from forked repo
+================================
 WindNinja is a diagnostic wind model developed for use in wildland fire modeling.
 
 Web:

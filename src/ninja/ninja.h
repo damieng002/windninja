@@ -136,7 +136,7 @@ public:
     AsciiGrid<double>AngleGrid;
     AsciiGrid<double>VelocityGrid;
     AsciiGrid<double>CloudGrid;
-#ifdef NINJAFOAM
+#ifdef NINJAFOAM      
     AsciiGrid<double>TurbulenceGrid; //this needs to be a member of ninja since we need to write this for ninjafoam runs with diurnal 
 #endif
 
@@ -238,7 +238,7 @@ public:
 
     void set_uniAirTemp(double temp, temperatureUnits::eTempUnits units);
     void set_uniCloudCover(double cloud_cover, coverUnits::eCoverUnits units);	//set cloud cover (fraction or percent of sky cover)
-    void set_upperWind(double upper_wind_limit, double upper_wind_height, double upper_wind_speed, double upper_wind_direction, bool upper_wind_zero_middle_layer);
+    void set_upperWind(double upper_wind_limit, double upper_wind_height, double upper_wind_speed, double upper_wind_direction, velocityUnits::eVelocityUnits upper_wind_units, bool upper_wind_zero_middle_layer);
     void set_wxModelFilename(const std::string& forecast_initialization_filename);	//sets the surface wind field initialization file (such as NDFD, etc.)
     void set_wxStationFilename(std::string station_filename);	//sets the weather station(s) filename (for use in point initialization)
     void set_wxStations(std::vector<wxStation> &wxStations);

@@ -320,6 +320,7 @@ int windNinjaCLI(int argc, char* argv[])
                 ("upper_wind_height",po::value<double>(), "height at which upper winds are given (ASL)")
                 ("upper_wind_speed",po::value<double>(), "speed of upper wind km/h")
                 ("upper_wind_direction",po::value<double>(), "direction of upper wind")
+                ("upper_wind_units", po::value<std::string>(), "units of input upper wind speed (mps, mph, kph, kts)")
                 ("upper_wind_zero_middle_layer",po::value<bool>(), "add a layer with zero wind between low and high altitude winds")
                 #ifdef FRICTION_VELOCITY
                 ("compute_friction_velocity",po::value<bool>()->default_value(false), "compute friction velocity (true, false)")
@@ -1528,10 +1529,12 @@ int windNinjaCLI(int argc, char* argv[])
                     option_dependency(vm, "use_upper_wind", "upper_wind_height");
                     option_dependency(vm, "use_upper_wind", "upper_wind_speed");
                     option_dependency(vm, "use_upper_wind", "upper_wind_direction");
+                    option_dependency(vm, "use_upper_wind", "upper_wind_units");
                     windsim.setUpperWind(i_, vm["upper_wind_limit"].as<double>(),
                                         vm["upper_wind_height"].as<double>(),
                                         vm["upper_wind_speed"].as<double>(),
                                         vm["upper_wind_direction"].as<double>(),
+                                        vm["upper_wind_units"].as<std::string>(),
                                         vm["upper_wind_zero_middle_layer"].as<bool>());
                 }
                 if(vm["write_wx_station_csv"].as<bool>()==true) //If the user wants an interpolated CSV

@@ -117,6 +117,7 @@ WindNinjaInputs::WindNinjaInputs()
     legFile = "!set";
     dateTimeLegFile = "!set";
     volVTKFile = "!set";
+    volVTKFileInitial = "!set";
     pdfOutFlag = false;
     pdfDEMFileName = "!set";
     pdfResolution = -1.0;
